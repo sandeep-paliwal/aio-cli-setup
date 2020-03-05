@@ -17,7 +17,7 @@ try {
      console.log("done")
    })
    .catch(e => {
-     core.setFailed(error.message);
+     core.setFailed(e.message);
    })
 
 } catch (error) {
