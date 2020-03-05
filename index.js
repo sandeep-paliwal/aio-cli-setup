@@ -3,6 +3,8 @@ const exec = require('@actions/exec')
 const execSync = require('child_process').execSync
 
 try {
+  const os = core.getInput('os');
+  console.log(" OS - " + os)
   // let options = {
   //     stdio: 'inherit',
   //     env: process.env
@@ -12,7 +14,8 @@ try {
 
    // await exec.exec('npm install -g @adobe/aio-cli')
    // await exec.exec('aio -v')
-   runCommand()
+
+   runCommand(os)
    .then(res => {
      console.log("done")
    })
@@ -24,7 +27,11 @@ try {
   core.setFailed(error.message);
 }
 
-async function runCommand() {
-  await exec.exec('npm install -g @adobe/aio-cli')
+async function runCommand(os) {
+  let commandStr = 'npm install -g @adobe/aio-cli'
+  if(os && !os.startsWith("windows"))
+    commandStr = 'sudo ' + commandStr
+
+  await exec.exec(commandStr)
   await exec.exec('aio -v')
 }
