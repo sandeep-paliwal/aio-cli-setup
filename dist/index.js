@@ -54,18 +54,34 @@ module.exports = require("os");
 /***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
 
 const core = __webpack_require__(470)
+// const exec = require('@actions/exec')
 const execSync = __webpack_require__(129).execSync
 
 try {
-  let options = {
-      stdio: 'inherit',
-      env: process.env
-  }
-   execSync('sudo npm install -g @adobe/aio-cli', options)
-   execSync('sudo aio -v', options)
+  // let options = {
+  //     stdio: 'inherit',
+  //     env: process.env
+  // }
+  //  execSync('sudo npm install -g @adobe/aio-cli', options)
+  //  execSync('sudo aio -v', options)
+
+   // await exec.exec('npm install -g @adobe/aio-cli')
+   // await exec.exec('aio -v')
+   runCommand()
+   .then(res => {
+     console.log("done")
+   })
+   .catch(e => {
+     core.setFailed(error.message);
+   })
 
 } catch (error) {
   core.setFailed(error.message);
+}
+
+async function runCommand() {
+  await exec.exec('npm install -g @adobe/aio-cli')
+  await exec.exec('aio -v')
 }
 
 
